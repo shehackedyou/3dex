@@ -8,6 +8,7 @@ Ideally Ill move the logic of the VStreamer stuff into its own Plugin or maybe e
 
 Slowly building up on the most basic functionality; I prefer to write it myself because this is also a chance to work on my Rust skills that have been getting 'rusty'.
 
+I'm making all my future work to this product GNUv3; I can negotiate with the major contributors if there ever happens to be code theyw ill want upstream but i doubt itll be important. Just want to ensure my work is helpful always, and not made properitary.
 
 _____
 Template for a Game using the awesome [Bevy engine][bevy] featuring out of the box builds for Windows, Linux, macOS, Web (Wasm), Android, and iOS.

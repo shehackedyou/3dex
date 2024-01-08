@@ -24,18 +24,43 @@ struct Avatar {
 
 #[derive(Resource, Default)]
 struct VStream {
-    avatar: Avatar,
+    avatar:              Avatar,
     camera_should_focus: Vec3,
-    camera_is_focus: Vec3,
+    camera_is_focus:     Vec3,
 }
 
 #[derive(Default)]
 struct Voxel {
-    entity: Option<Entity>,
-    x: f32,
-    y: f32,
-    z: f32,
+    entity:    Option<Entity>,
+    x:         f32,
+    size:      f32,
+    mass:      f32,
+    direction: Vec3,
+    speed:     f32,
 }
+
+#[derive(Default)]
+struct Grid {
+    entity: Option<Entity>,
+    x:      f32,
+    y:      f32,
+    z:      f32,
+    width:  f32,
+    height: f32,
+}
+
+// TODO Or list of grids could be different sized grids too just need to line up 1 point between each
+#[derive(Default)]
+struct Space {
+    entity: Option<Entity>,
+    x:      f32,
+    y:      f32,
+    z:      f32,
+    width:  f32,
+    height: f32,
+    dpeth:  f32,
+}
+    
 
 
 
@@ -85,44 +110,52 @@ fn setup(
     // plane
     commands.spawn((
         PbrBundle {
-            mesh: meshes.add(shape::Plane::from_size(20.).into()),
+            mesh: meshes.add(shape::Plane::from_size(20.0).into()),
             material: materials.add(Color::rgb(0.3, 0.5, 0.3).into()),
             ..default()
         },
         Ground,
     ));
 
-    // Our Grid Zero Position in a 2D Grid will be -5.0, -5.0 with ground at -0.5. Should be 
-    //   intiailized at a position then stack these together easily for 3D shapes. Be able to scale down    //   voxels for higher detail items
+    // Our Grid Zero Position in a 2D Grid will be -10.0, -10.0 with ground at -0.5. Should be 
+    //   intiailized at a position then stack these together easily for 3D shapes. Be able to scale down    
+     //   voxels for higher detail items
     //
     
+    // We want complex zone shapes eventually achieved most likely through inaccessibles 
+    let mut gridWidth = 10;
+    let mut gridHeight = 10;
+
+    let mut sum = 0;
 
     // Extend commands so we can make this less clunky shit also so we can start doing 
     // things like changing their color n-stuff
-    for column in 1..10 {
-	println!("col {}", column);
+    for column in 0..gridWidth {
+     println!("column {}", column);
         commands.spawn((
     	   PbrBundle {
     		mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
     		material: materials.add(Color::rgb_u8(124+(column as u8 *2), 144, 255).into()),
-    		transform: Transform::from_xyz((column as f32 * 1.25)-6.0, 0.5, -6.0),
+    		transform: Transform::from_xyz((column as f32 * 1.0)-10.0, 0.5, 0.0),
     		..default()
     	  },
 	));
-     for row in 1..10 {
-	// All the 1s are being double spawned on, should start at 2 for row 
-           println!("row {}", row);
-           commands.spawn((
-              PbrBundle {
-           	mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
-           	material: materials.add(Color::rgb_u8(124+(row as u8 *4), 144, 255).into()),
-           	transform: Transform::from_xyz((row as f32 * 1.25)-6.0, 0.5, (column as f32 * 1.25)-6.0),
-           	..default()
-             },
-           ));
-	};
+      sum = sum + column;
+     for row in 0..gridHeight {
+	println!("row {}", row);
+          commands.spawn((
+	     PbrBundle {
+          	mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
+          	material: materials.add(Color::rgb_u8(124+(column as u8 *2), 144, 255).into()),
+          	transform: Transform::from_xyz(column as f32, 0.5, (row as f32 * 1.0)),
+          	..default()
+            },
+        ));
+	sum = sum + row;
+      }
     }
-
+   
+   println!("grid size {}", sum);
 
 
    // cube
