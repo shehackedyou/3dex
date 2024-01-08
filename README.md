@@ -1,5 +1,15 @@
-# A Bevy game template
+# 3Dex 
 
+A 3D stage to cel-shade and setup a 3D environment that I can use tensorflow to match my movements. It will provide a consistent VStream visual representation, it will enable me to hook fan art into it easily, it will grow in complexity, and ideally be a useful tool for other VStreamers. 
+
+Ideally Ill move the logic of the VStreamer stuff into its own Plugin or maybe even just Animation because I would like to also use it to stage scenes to rapidly produce comic books. 
+
+3D EXample
+
+Slowly building up on the most basic functionality; I prefer to write it myself because this is also a chance to work on my Rust skills that have been getting 'rusty'.
+
+
+_____
 Template for a Game using the awesome [Bevy engine][bevy] featuring out of the box builds for Windows, Linux, macOS, Web (Wasm), Android, and iOS.
 
 # What does this template give you?
